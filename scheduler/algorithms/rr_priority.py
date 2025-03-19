@@ -98,7 +98,7 @@ class RRPriorityScheduler(Scheduler):
         self.priority_queues[process.priority].remove(process)
         
         # Execute for time quantum or until completion
-        execution_time = process.execute(self.time_quantum)
+        execution_time = process.execute(self.time_quantum, current_time=self.time)
         
         if debug:
             if process.remaining_time > 0:
@@ -109,7 +109,7 @@ class RRPriorityScheduler(Scheduler):
                       f"(completed)")
                 
         # Update simulation time
-        self.time += execution_time
+        self.tick(execution_time)
         
         # If the process is not finished, add it back to the end of its priority queue
         if process.state != process.state.TERMINATED:

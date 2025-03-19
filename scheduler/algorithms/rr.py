@@ -57,18 +57,19 @@ class RRScheduler(Scheduler):
         self.ready_queue.remove(process)
         
         # Execute for time quantum or until completion
-        execution_time = process.execute(self.time_quantum)
+        execution_time = process.execute(self.time_quantum, current_time=self.time)
         
         if debug:
             if process.remaining_time > 0:
-                print(f"Executing {process.name} for {execution_time}ms (preempted, "
-                      f"{process.remaining_time}ms remaining)")
+                print(f"Executing {process.name} for {execution_time}ms "
+                      f"(preempted, {process.remaining_time}ms remaining)")
             else:
-                print(f"Executing {process.name} for {execution_time}ms (completed)")
+                print(f"Executing {process.name} for {execution_time}ms "
+                      f"(completed)")
                 
         # Update simulation time
-        self.time += execution_time
+        self.tick(execution_time)
         
-        # If the process is not finished, add it back to the end of the queue
+        # If the process is not finished, add it back to the end of the ready queue
         if process.state != process.state.TERMINATED:
             self.add_to_ready_queue(process) 

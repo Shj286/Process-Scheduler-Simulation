@@ -52,13 +52,13 @@ class SJNScheduler(Scheduler):
         self.ready_queue.remove(process)
         
         # Execute until completion
-        execution_time = process.execute()
+        execution_time = process.execute(time_slice=None, current_time=self.time)
         
         if debug:
             print(f"Executing {process.name} for {execution_time}ms (until completion)")
             
         # Update simulation time
-        self.time += execution_time
+        self.tick(execution_time)
 
 
 class SRTFScheduler(Scheduler):
@@ -115,7 +115,7 @@ class SRTFScheduler(Scheduler):
         self.ready_queue.remove(process)
         
         # Execute for time slice or until completion
-        execution_time = process.execute(self.time_slice)
+        execution_time = process.execute(self.time_slice, current_time=self.time)
         
         if debug:
             if process.remaining_time > 0:
@@ -125,7 +125,7 @@ class SRTFScheduler(Scheduler):
                 print(f"Executing {process.name} for {execution_time}ms (completed)")
                 
         # Update simulation time
-        self.time += execution_time
+        self.tick(execution_time)
         
         # If the process is not finished, add it back to the ready queue
         if process.state != process.state.TERMINATED:

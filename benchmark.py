@@ -76,16 +76,16 @@ def create_benchmark_mixed():
         list: List of Process objects
     """
     processes = [
-        Process(name="P1", arrival_time=0, burst_time=8, priority=3),   # Medium
-        Process(name="P2", arrival_time=1, burst_time=2, priority=5),   # Short
-        Process(name="P3", arrival_time=3, burst_time=15, priority=2),  # Long
-        Process(name="P4", arrival_time=5, burst_time=3, priority=4),   # Short
-        Process(name="P5", arrival_time=6, burst_time=10, priority=1),  # Medium
-        Process(name="P6", arrival_time=8, burst_time=1, priority=3),   # Very short
-        Process(name="P7", arrival_time=9, burst_time=12, priority=5),  # Long
-        Process(name="P8", arrival_time=10, burst_time=5, priority=4),  # Medium
-        Process(name="P9", arrival_time=12, burst_time=4, priority=2),  # Short
-        Process(name="P10", arrival_time=14, burst_time=20, priority=1), # Very long
+        Process(name="P1", arrival_time=0, burst_time=12, priority=3),   # Medium-long
+        Process(name="P2", arrival_time=1, burst_time=4, priority=5),    # Short
+        Process(name="P3", arrival_time=2, burst_time=20, priority=2),   # Very long
+        Process(name="P4", arrival_time=3, burst_time=6, priority=4),    # Medium
+        Process(name="P5", arrival_time=4, burst_time=15, priority=1),   # Long
+        Process(name="P6", arrival_time=5, burst_time=2, priority=3),    # Very short
+        Process(name="P7", arrival_time=6, burst_time=18, priority=5),   # Long
+        Process(name="P8", arrival_time=7, burst_time=8, priority=4),    # Medium
+        Process(name="P9", arrival_time=8, burst_time=5, priority=2),    # Short
+        Process(name="P10", arrival_time=9, burst_time=25, priority=1),  # Very long
     ]
     return processes
 

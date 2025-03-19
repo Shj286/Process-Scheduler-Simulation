@@ -140,7 +140,7 @@ class MLFQScheduler(Scheduler):
         start_remaining = process.remaining_time
         
         # Execute for quantum or until completion
-        execution_time = process.execute(quantum)
+        execution_time = process.execute(quantum, current_time=self.time)
         
         # Update time since last boost
         self.time_since_last_boost += execution_time
@@ -155,7 +155,7 @@ class MLFQScheduler(Scheduler):
                       f"(completed)")
                 
         # Update simulation time
-        self.time += execution_time
+        self.tick(execution_time)
         
         # If the process is not finished, determine its next queue
         if process.state != ProcessState.TERMINATED:

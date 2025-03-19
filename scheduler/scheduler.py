@@ -101,11 +101,20 @@ class Scheduler(ABC):
         for process in self.processes:
             if (process.state == ProcessState.NEW and 
                 process.arrival_time <= current_time):
-                process.activate()
+                process.activate(current_time)
                 self.add_to_ready_queue(process)
                 arrivals += 1
                 
         return arrivals
+    
+    def tick(self, elapsed_time):
+        """
+        Update simulation time and process states.
+        
+        Args:
+            elapsed_time (float): Amount of time to advance simulation
+        """
+        self.time += elapsed_time
     
     def context_switch(self, from_process, to_process):
         """
@@ -121,9 +130,8 @@ class Scheduler(ABC):
         if from_process is not None:
             from_process.preempt()
             
-        # Simulate context switch overhead
-        time.sleep(self.context_switch_overhead)
-        self.time += self.context_switch_overhead
+        # Update simulation time with context switch overhead
+        self.tick(self.context_switch_overhead)
         self.last_context_switch_time = self.time
         
         self.current_process = to_process

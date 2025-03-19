@@ -8,8 +8,8 @@ class FCFSScheduler(Scheduler):
     """
     First Come First Served scheduler implementation.
     
-    Processes are executed in the order they arrive, with no preemption.
-    This is the simplest scheduling algorithm.
+    This is a non-preemptive scheduler that executes processes in the
+    order they arrive.
     """
     
     def __init__(self):
@@ -18,7 +18,7 @@ class FCFSScheduler(Scheduler):
         
     def add_to_ready_queue(self, process):
         """
-        Add a process to the ready queue in FCFS order (append to end).
+        Add a process to the ready queue.
         
         Args:
             process (Process): The process to add to the queue
@@ -27,15 +27,15 @@ class FCFSScheduler(Scheduler):
         
     def schedule(self):
         """
-        Select the next process to run using FCFS policy.
+        Select the next process to run based on FCFS policy.
         
         Returns:
-            Process: The next process to run, or None if the queue is empty
+            Process: The earliest arrived process, or None if queue is empty
         """
         if not self.ready_queue:
             return None
             
-        # In FCFS, we select the first process that arrived (front of queue)
+        # Return the first process in the queue (earliest arrival)
         return self.ready_queue[0]
         
     def execute_process(self, process, debug=False):
@@ -50,10 +50,10 @@ class FCFSScheduler(Scheduler):
         self.ready_queue.remove(process)
         
         # Execute until completion
-        execution_time = process.execute()
+        execution_time = process.execute(time_slice=None, current_time=self.time)
         
         if debug:
             print(f"Executing {process.name} for {execution_time}ms (until completion)")
             
         # Update simulation time
-        self.time += execution_time 
+        self.tick(execution_time) 
